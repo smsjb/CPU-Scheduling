@@ -2,7 +2,7 @@
 作業系統程式作業
 
 # 程式目的
-實現FCFS、RR、PSJF、NPSJF、Priority五種中央處理器排成演算法
+實現FCFS、RR、PSJF、NPSJF、Priority五種中央處理器排程演算法
 
 # 功能
 1. FCFS:先到先服務排程，依Arrival Time順序做CPU排程，先到的process先佔有CPU，做到CPU Burst
