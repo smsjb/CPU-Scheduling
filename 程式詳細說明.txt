@@ -1,0 +1,57 @@
+開發平台
+使用軟體: jupyter notebook
+
+使用開發環境
+使用python3語言
+
+未完成的功能
+全完成。
+
+說明你的程式設計(功能，流程，使用的data structure)
+功能
+FCFS:先到先服務排程，依Arrival Time順序做CPU排程，先到的process先佔有CPU，做到CPU Burst
+為0為止才換下一個process，最後輸出甘特圖並依process id 由小到大依序輸出Turnaround Time和Waiting Time。
+NSJF:不可奪取最短工作優先，依CPU Burst大小決定誰先佔CPU，CPU Burst小優先佔CPU，若有CPU Burst較小的process抵達則此process進佇列第一位，
+不可搶佔CPU，Arrival Time未到時間不可進佇列和佔CPU，最後輸出甘特圖並依process id 由小到大依序輸出Turnaround Time和Waiting Time。
+PSJF:可奪取最短工作優先，依CPU Burst大小決定誰先佔CPU，CPU Burst小優先佔CPU，若有CPU Burst較小的process抵達則此process搶佔CPU
+自己則進佇列第一位排隊，Arrival Time未到時間不可進佇列和佔CPU，最後輸出甘特圖並依process id 由小到大依序輸出Turnaround Time和
+Waiting Time。
+RR:知更鳥式循環排程，根據Arrival Time做FCFS，process依設定的time slice決定每次佔有CPU多長時間，時間到則換下一個process佔CPU，
+自己則去佇列排隊，Arrival Time未到時間不可進佇列和佔CPU，最後輸出甘特圖並依process id 由小到大依序輸出Turnaround Time和Waiting Time。
+PP:優先等級排程，根據priority大小決定誰先佔CPU，priority小優先佔CPU，若有優先等級較高的process抵達則此process搶佔CPU，自己則去
+佇列排隊，Arrival Time未到時間不可進佇列和佔CPU，最後輸出甘特圖並依process id 由小到大依序輸出Turnaround Time和Waiting Time。
+All:執行上述所有排程法，並在最後輸出所有排程的甘特圖並依process id 由小到大依序輸出所有排程的Turnaround Time和Waiting Time。
+
+流程
+用readfile()依序將資料讀入，process資訊存入字典list(dlist)、time slice存入(int)ts、功能選項存入(int)op，再依op進入對應功能，若為1則呼叫
+FCFS(dlist) function、為2呼叫RR(dlist, ts) function、為3呼叫PSJF(dlist)、為4呼叫NSJF(dlist) function、為5呼叫PP(dlist, ts) function、
+為6則呼叫上述所有function。當op為1~5最後呼叫Out(function name, chart,  cpus) function，op為6則依輸出格式要求輸出甘特圖、Turnaround 
+Time和Waiting Time，最後輸出txt檔。
+Out(function name, chart,  cpus):依輸出格式要求輸出甘特圖、Turnaround Time和Waiting Time，限單一排程之輸出。
+FCFS(dlist):呼叫BubbleSort(lst)對傳入的list依Arrival Time做排序後，將排序後process依序佔有CPU，最後回傳字典型態甘特圖。
+
+NSJF(dlist):呼叫NSJFsort(lst)對lst最排序，CPU Burst小優先、若CPU Burst相同未使用CPU優先，若無法判斷arrival time小優先，arrival time相同，
+process id小優先，將排序後process依序佔有CPU，若遇CPU Burst較小process則此process進佇列並排序等待繼續占有CPU，並呼叫CheckZ(lst)對lst
+做檢查是否所有process 的CPU Burst皆為0，是，結束，否，未為0之process繼續等待佔CPU，最後回傳字典型態甘特圖。
+
+PSJF(dlist):呼叫PSJFsort(lst)對lst最排序，CPU Burst小優先、若CPU Burst相同未使用CPU優先，若無法判斷arrival time小優先，arrival time相同，
+process id小優先，將排序後process依序佔有CPU，若遇CPU Burst較小process則此process搶佔CPU，CPU裡process進佇列第一位等待繼續占有CPU，並呼
+叫CheckZ(lst)對lst做檢查是否所有process 的CPU Burst皆為0，是，結束，否，未為0之process繼續等待佔CPU，最後回傳字典型態甘特圖。
+
+RR(dlist, ts):呼叫BubbleSort(lst)對傳入的list依Arrival Time做排序後，將排序後process依序佔有CPU，ts用完CPU Burst不為0則TimeOut，進佇列
+排隊並排序，呼叫CheckZ(lst)對lst做檢查是否所有process 的CPU Burst皆為0，是，結束，否，未為0之process繼續等待佔CPU，最後回傳字典型態甘特圖。
+
+PP(dlist, ts):呼叫PPsort(lst)對lst最排序，priority小優先、若priority相同未使用CPU優先，若無法判斷arrival time小優先，arrival time相同，
+process id小優先，將排序後process依序佔有CPU，若遇優先等級較高process則此process搶佔CPU，CPU裡process進佇列並排序等待繼續占有CPU，並呼
+叫CheckZ(lst)對lst做檢查是否所有process 的CPU Burst皆為0，是，結束，否，未為0之process繼續等待佔CPU，最後回傳字典型態甘特圖。
+
+使用的data structure
+(list) dlist:內存字典型態，{'pid':pid, 'cpu':cpu burst, 'at':arrival time, 'p':priority}，存所有process資訊。
+(int) ts:存time slice。
+(int) op:存功能選項。
+(list) cpus:內存字典型態，{'pid':pid, 'cpu':cpu burst}，以便搜尋資料。
+(list) chart:內存字典型態，{'pid':pid, 'start':start, 'end':end}，紀錄processes佔用CPU所有時間段。
+(list) queue:內存字典型態，紀錄比大小時所需所有資訊。(
+(int) qlen:紀錄queue的長度，用來判斷是否有新的process到達。
+(dictionary) incpu:紀錄佔有CPU的process資訊。
+
